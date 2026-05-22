@@ -66,7 +66,6 @@ app.get("/api/auth/verify", (req, res) => {
     message: "User Verified",
   });
 });
-
 // ✅ Logout Route
 app.post("/api/auth/logout", (req, res) => {
 
