@@ -19,6 +19,6 @@ spec:
       containers:
         - name: auth
           image: manoharn0441/auth-service:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3001
