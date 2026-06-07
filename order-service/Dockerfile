@@ -1,13 +1,14 @@
-FROM node:18
-
+# Stage 1: Build the JAR with Maven
+FROM maven:3.9-eclipse-temurin-17 AS builder
 WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
+# Stage 2: Minimal runtime image
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 3003
-
-CMD ["npm", "start"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
